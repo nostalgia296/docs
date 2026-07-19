@@ -222,9 +222,9 @@
 		return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 	}
 
-	function highlightTerms(value: string, searchQuery: string): string {
+	function createSearchMatcher(searchQuery: string): RegExp | null {
 		const trimmed = searchQuery.trim();
-		if (!trimmed) return escapeHtml(value);
+		if (!trimmed) return null;
 
 		const terms = new Set<string>([
 			trimmed,
@@ -238,9 +238,38 @@
 			.map(escapeRegExp)
 			.join('|');
 
-		if (!pattern) return escapeHtml(value);
+		return pattern ? new RegExp(pattern, 'giu') : null;
+	}
 
-		const matcher = new RegExp(pattern, 'giu');
+	function getFocusedExcerpt(value: string, searchQuery: string, maxLength = 96): string {
+		const excerpt = value.trim();
+		if (excerpt.length <= maxLength) return excerpt;
+
+		const matcher = createSearchMatcher(searchQuery);
+		const match = matcher?.exec(excerpt);
+		if (!match) return `${excerpt.slice(0, maxLength).trimEnd()}...`;
+
+		const matchStart = match.index ?? 0;
+		const matchEnd = matchStart + match[0].length;
+		const beforeLength = Math.min(24, Math.floor(Math.max(0, maxLength - match[0].length) / 3));
+		let start = Math.max(0, matchStart - beforeLength);
+		let end = Math.min(excerpt.length, start + maxLength);
+
+		if (end < matchEnd) {
+			end = Math.min(excerpt.length, matchEnd + maxLength - beforeLength);
+			start = Math.max(0, end - maxLength);
+		}
+
+		const prefix = start > 0 ? '...' : '';
+		const suffix = end < excerpt.length ? '...' : '';
+
+		return `${prefix}${excerpt.slice(start, end).trim()}${suffix}`;
+	}
+
+	function highlightTerms(value: string, searchQuery: string): string {
+		const matcher = createSearchMatcher(searchQuery);
+		if (!matcher) return escapeHtml(value);
+
 		let highlighted = '';
 		let lastIndex = 0;
 
@@ -433,11 +462,11 @@
 							<div class="text-sm font-medium">{@html highlightTerms(doc.title, query)}</div>
 							{#if doc.excerpt}
 								<div class="mt-0.5 line-clamp-2 text-xs text-ios-secondary">
-									{@html highlightTerms(doc.excerpt, query)}
+									{@html highlightTerms(getFocusedExcerpt(doc.excerpt, query), query)}
 								</div>
 							{:else if doc.description}
 								<div class="mt-0.5 line-clamp-1 text-xs text-ios-secondary">
-									{@html highlightTerms(doc.description, query)}
+									{@html highlightTerms(getFocusedExcerpt(doc.description, query), query)}
 								</div>
 							{/if}
 						</a>
@@ -522,11 +551,11 @@
 								<div class="text-sm font-medium">{@html highlightTerms(doc.title, query)}</div>
 								{#if doc.excerpt}
 									<div class="mt-0.5 line-clamp-2 text-xs text-ios-secondary">
-										{@html highlightTerms(doc.excerpt, query)}
+										{@html highlightTerms(getFocusedExcerpt(doc.excerpt, query), query)}
 									</div>
 								{:else if doc.description}
 									<div class="mt-0.5 text-xs text-ios-secondary">
-										{@html highlightTerms(doc.description, query)}
+										{@html highlightTerms(getFocusedExcerpt(doc.description, query), query)}
 									</div>
 								{/if}
 							</a>
