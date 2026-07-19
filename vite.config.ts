@@ -1,6 +1,6 @@
 import { mdsvex } from 'mdsvex';
 import tailwindcss from '@tailwindcss/vite';
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import remarkExpressiveCode from 'remark-expressive-code';
@@ -20,6 +20,11 @@ function mdsvexExpressiveCodeHack() {
 }
 
 export default defineConfig({
+	build: {
+		rollupOptions: {
+			external: ['/pagefind/pagefind.js']
+		}
+	},
 	plugins: [
 		tailwindcss(),
 		sveltekit({

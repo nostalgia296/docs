@@ -22,21 +22,25 @@
 
 	afterNavigate(() => {
 		if (observer) observer.disconnect();
-		
+
 		setTimeout(() => {
 			const article = document.querySelector('article.prose-custom');
 			if (!article) return;
-			
+
 			const els = article.querySelectorAll('h2, h3');
 			headings = Array.from(els).map((el, index) => {
 				let id = el.id;
 				if (!id) {
-					const textId = el.textContent?.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-\u4e00-\u9fa5]/g, '');
+					const textId = el.textContent
+						?.trim()
+						.toLowerCase()
+						.replace(/\s+/g, '-')
+						.replace(/[^\w\-\u4e00-\u9fa5]/g, '');
 					id = textId || `heading-${index}`;
 					el.id = id;
 				}
 				el.classList.add('scroll-mt-20');
-				
+
 				return {
 					id,
 					text: el.textContent || '',
@@ -72,8 +76,9 @@
 					<li>
 						<a
 							href="#{heading.id}"
-							class="block text-sm transition-colors hover:text-ios-label {activeHeading === heading.id
-								? 'text-ios-blue font-medium'
+							class="block text-sm transition-colors hover:text-ios-label {activeHeading ===
+							heading.id
+								? 'font-medium text-ios-blue'
 								: 'text-ios-secondary'} {heading.depth === 3 ? 'ml-3' : ''}"
 						>
 							{heading.text}
@@ -82,7 +87,7 @@
 				{/each}
 			</ul>
 		{:else}
-			<div class="text-sm text-ios-secondary px-2">-</div>
+			<div class="px-2 text-sm text-ios-secondary">-</div>
 		{/if}
 	</div>
 </div>
@@ -90,19 +95,23 @@
 <!-- Mobile TOC Floating Button -->
 {#if headings.length > 0}
 	<button
-		class="fixed bottom-8 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-ios-blue text-white shadow-xl transition-transform hover:scale-105 active:scale-95 xl:hidden"
+		class="fixed right-6 bottom-8 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-ios-blue text-white shadow-xl transition-transform hover:scale-105 active:scale-95 xl:hidden"
 		onclick={() => (isMobileTocOpen = true)}
 		aria-label="Table of Contents"
 	>
 		<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M4 6h16M4 12h16m-7 6h7"
+			/>
 		</svg>
 	</button>
 {/if}
 
 <!-- Mobile TOC Overlay -->
 {#if isMobileTocOpen}
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<div
 		class="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm xl:hidden"
 		onclick={() => (isMobileTocOpen = false)}
@@ -114,7 +123,7 @@
 	></div>
 
 	<div
-		class="fixed inset-x-0 bottom-0 z-50 max-h-[80vh] flex flex-col rounded-t-3xl bg-ios-bg p-6 shadow-2xl xl:hidden"
+		class="fixed inset-x-0 bottom-0 z-50 flex max-h-[80vh] flex-col rounded-t-3xl bg-ios-bg p-6 shadow-2xl xl:hidden"
 		transition:fly={{ y: '100%', duration: 300, easing: cubicOut }}
 	>
 		<div class="mb-6 flex shrink-0 items-center justify-between">
@@ -125,11 +134,16 @@
 				aria-label="Close"
 			>
 				<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M6 18L18 6M6 6l12 12"
+					/>
 				</svg>
 			</button>
 		</div>
-		
+
 		<div class="scrollbar-thin overflow-y-auto pb-6">
 			<ul class="flex flex-col gap-4 border-l border-ios-separator pl-4">
 				{#each headings as heading}
@@ -137,8 +151,9 @@
 						<a
 							href="#{heading.id}"
 							onclick={() => (isMobileTocOpen = false)}
-							class="block text-base transition-colors hover:text-ios-label {activeHeading === heading.id
-								? 'text-ios-blue font-medium'
+							class="block text-base transition-colors hover:text-ios-label {activeHeading ===
+							heading.id
+								? 'font-medium text-ios-blue'
 								: 'text-ios-secondary'} {heading.depth === 3 ? 'ml-4' : ''}"
 						>
 							{heading.text}

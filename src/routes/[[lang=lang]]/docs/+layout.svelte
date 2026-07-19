@@ -27,12 +27,14 @@
 	let isMobileSidebarOpen = $state(false);
 </script>
 
-<div class="flex flex-col lg:flex-row w-full px-4 pt-4 lg:pt-10 pb-24 sm:px-6 lg:px-8">
+<div class="flex w-full flex-col px-4 pt-4 pb-24 sm:px-6 lg:flex-row lg:px-8 lg:pt-10">
 	<Sidebar {locale} pathname={$page.url.pathname} bind:isMobileOpen={isMobileSidebarOpen} />
 
 	<!-- Main Content -->
 	<main class="min-w-0 flex-1 lg:pl-10">
 		<article
+			data-pagefind-body
+			data-pagefind-filter="lang:{currentLang}"
 			class="prose-custom rounded-2xl border border-ios-separator bg-ios-card p-8 shadow-sm sm:p-10"
 		>
 			{@render children()}

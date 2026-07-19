@@ -28,6 +28,7 @@ export interface LocaleConfig {
 		viewOnGithub: string;
 		searchPlaceholder: string;
 		searchNoResults: string;
+		searchLoading: string;
 		searchCancel: string;
 		menu?: string;
 	};
@@ -55,18 +56,15 @@ export const config: DocsConfig = {
 				viewOnGithub: 'View on GitHub',
 				searchPlaceholder: 'Search...',
 				searchNoResults: 'No results found',
+				searchLoading: 'Searching...',
 				searchCancel: 'Cancel',
 				menu: 'Menu'
 			},
-			nav: [
-				{ text: 'Notes', link: '/docs/getting-started' }
-			],
+			nav: [{ text: 'Notes', link: '/docs/getting-started' }],
 			sidebar: [
 				{
 					text: 'My Notes',
-					items: [
-						{ text: 'begining', link: '/docs/getting-started' }
-					]
+					items: [{ text: 'begining', link: '/docs/getting-started' }]
 				}
 			]
 		},
@@ -82,18 +80,15 @@ export const config: DocsConfig = {
 				viewOnGithub: '在 GitHub 上查看',
 				searchPlaceholder: '搜索文档...',
 				searchNoResults: '未找到结果',
+				searchLoading: '搜索中...',
 				searchCancel: '取消',
 				menu: '菜单'
 			},
-			nav: [
-				{ text: '笔记', link: '/zh/docs/getting-started' }
-			],
+			nav: [{ text: '笔记', link: '/zh/docs/getting-started' }],
 			sidebar: [
 				{
 					text: '我的笔记',
-					items: [
-						{ text: '起点', link: '/zh/docs/getting-started' }
-					]
+					items: [{ text: '起点', link: '/zh/docs/getting-started' }]
 				}
 			]
 		}

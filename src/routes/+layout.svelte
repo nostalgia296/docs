@@ -1,5 +1,6 @@
 <script lang="ts">
 	import './layout.css';
+	import { browser } from '$app/environment';
 	import { config } from '$lib/docs.config';
 	import { page } from '$app/stores';
 	import { localizePath } from '$lib/i18n';
@@ -10,6 +11,12 @@
 
 	let currentLang = $derived($page.params.lang || config.defaultLocale);
 	let locale = $derived(config.locales[currentLang] || config.locales[config.defaultLocale]);
+
+	$effect(() => {
+		if (browser) {
+			document.documentElement.lang = currentLang;
+		}
+	});
 </script>
 
 <div class="flex min-h-screen flex-col selection:bg-ios-blue selection:text-white">

@@ -1,7 +1,51 @@
 <script lang="ts">
 	import { afterNavigate, goto } from '$app/navigation';
-	import { searchDocs, type SearchDoc } from '$lib/search';
 	import type { LocaleConfig } from '$lib/docs.config';
+	import { onMount } from 'svelte';
+
+	type PagefindSearchOptions = {
+		filters?: Record<string, string | string[]>;
+	};
+
+	type PagefindSearchResult = {
+		data: () => Promise<PagefindSearchData>;
+	};
+
+	type PagefindSearchResponse = {
+		results: PagefindSearchResult[];
+	};
+
+	type PagefindSearchData = {
+		url: string;
+		excerpt?: string;
+		plain_excerpt?: string;
+		meta?: Record<string, string>;
+		sub_results?: Array<{
+			title?: string;
+			url?: string;
+			excerpt?: string;
+			plain_excerpt?: string;
+		}>;
+	};
+
+	type Pagefind = {
+		init: () => Promise<void> | void;
+		destroy?: () => Promise<void> | void;
+		search: (query: string, options?: PagefindSearchOptions) => Promise<PagefindSearchResponse>;
+		debouncedSearch?: (
+			query: string,
+			options?: PagefindSearchOptions,
+			timeout?: number
+		) => Promise<PagefindSearchResponse | null>;
+		preload?: (query: string, options?: PagefindSearchOptions) => Promise<void> | void;
+	};
+
+	interface SearchDoc {
+		href: string;
+		title: string;
+		description: string;
+		excerpt: string;
+	}
 
 	let { locale, lang }: { locale: LocaleConfig; lang: string } = $props();
 
@@ -12,13 +56,34 @@
 	let inputEl = $state<HTMLInputElement | null>(null);
 	let mobileInputEl = $state<HTMLInputElement | null>(null);
 	let rootEl = $state<HTMLDivElement | null>(null);
+	let results = $state<SearchDoc[]>([]);
+	let loading = $state(false);
 
-	let results = $derived(searchDocs(query, lang));
+	let pagefind: Pagefind | null = null;
+	let pagefindLoad: Promise<Pagefind | null> | null = null;
+	let pagefindLang: string | null = null;
+	let searchVersion = 0;
+	let warnedMissingPagefind = false;
+	let warnedSearchError = false;
 
 	$effect(() => {
-		// Reset highlight when the result set changes.
-		void results;
+		const trimmed = query.trim();
+		const currentLang = lang;
+
 		activeIndex = 0;
+
+		if (!trimmed) {
+			searchVersion += 1;
+			results = [];
+			loading = false;
+			return;
+		}
+
+		void searchDocs(trimmed, currentLang);
+	});
+
+	onMount(() => {
+		void ensurePagefind(lang);
 	});
 
 	afterNavigate(() => {
@@ -29,7 +94,10 @@
 		open = false;
 		mobileOpen = false;
 		query = '';
+		results = [];
+		loading = false;
 		activeIndex = 0;
+		searchVersion += 1;
 	}
 
 	function openMobile() {
@@ -67,6 +135,162 @@
 			event.preventDefault();
 			const target = docs[activeIndex];
 			if (target) void goToResult(target);
+		}
+	}
+
+	function searchOptions(currentLang: string): PagefindSearchOptions {
+		return {
+			filters: {
+				lang: currentLang
+			}
+		};
+	}
+
+	function isCjk(char: string): boolean {
+		return /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}\p{Script=Thai}]/u.test(
+			char
+		);
+	}
+
+	function pushCjkTokens(tokens: string[], value: string) {
+		if (!value) return;
+
+		const chars = Array.from(value);
+		for (let index = 0; index < chars.length; index += 2) {
+			tokens.push(chars.slice(index, index + 2).join(''));
+		}
+	}
+
+	function normalizeSearchQuery(value: string): string {
+		const tokens: string[] = [];
+		let cjkBuffer = '';
+		let wordBuffer = '';
+
+		function flushCjk() {
+			pushCjkTokens(tokens, cjkBuffer);
+			cjkBuffer = '';
+		}
+
+		function flushWord() {
+			const word = wordBuffer.trim();
+			if (word) tokens.push(word);
+			wordBuffer = '';
+		}
+
+		for (const char of value.trim()) {
+			if (isCjk(char)) {
+				flushWord();
+				cjkBuffer += char;
+			} else if (/\s/.test(char)) {
+				flushCjk();
+				flushWord();
+			} else {
+				flushCjk();
+				wordBuffer += char;
+			}
+		}
+
+		flushCjk();
+		flushWord();
+
+		return tokens.join(' ');
+	}
+
+	async function loadPagefind(): Promise<Pagefind | null> {
+		if (pagefind) return pagefind;
+
+		// @ts-expect-error Pagefind writes this bundle after the SvelteKit build.
+		pagefindLoad ??= import(/* @vite-ignore */ '/pagefind/pagefind.js')
+			.then((mod) => {
+				pagefind = mod as Pagefind;
+				return pagefind;
+			})
+			.catch((error) => {
+				if (!warnedMissingPagefind) {
+					warnedMissingPagefind = true;
+					console.warn(
+						'Pagefind search bundle is not available. Run a production build first.',
+						error
+					);
+				}
+				return null;
+			});
+
+		return pagefindLoad;
+	}
+
+	async function ensurePagefind(currentLang: string): Promise<Pagefind | null> {
+		const pf = await loadPagefind();
+		if (!pf) return null;
+
+		if (pagefindLang !== currentLang) {
+			document.documentElement.lang = currentLang;
+
+			if (pagefindLang && pf.destroy) {
+				await pf.destroy();
+			}
+
+			await pf.init();
+			pagefindLang = currentLang;
+		}
+
+		return pf;
+	}
+
+	function toSearchDoc(result: PagefindSearchData): SearchDoc | null {
+		const subResult = result.sub_results?.[0];
+		const href = subResult?.url || result.url;
+		if (!href) return null;
+
+		const pageTitle = result.meta?.title || result.url;
+		const title =
+			subResult?.title && subResult.title !== pageTitle
+				? `${pageTitle} / ${subResult.title}`
+				: pageTitle;
+
+		return {
+			href,
+			title,
+			description: '',
+			excerpt: subResult?.plain_excerpt || result.plain_excerpt || ''
+		};
+	}
+
+	async function searchDocs(trimmed: string, currentLang: string) {
+		const version = ++searchVersion;
+		loading = true;
+
+		try {
+			const pf = await ensurePagefind(currentLang);
+			if (!pf || version !== searchVersion) return;
+
+			const options = searchOptions(currentLang);
+			const pagefindQuery = normalizeSearchQuery(trimmed);
+			pf.preload?.(pagefindQuery, options);
+
+			const search = pf.debouncedSearch
+				? await pf.debouncedSearch(pagefindQuery, options, 150)
+				: await pf.search(pagefindQuery, options);
+
+			if (!search || version !== searchVersion) return;
+
+			const data = await Promise.all(search.results.slice(0, 8).map((result) => result.data()));
+			if (version !== searchVersion) return;
+
+			results = data.map(toSearchDoc).filter((result): result is SearchDoc => Boolean(result));
+		} catch (error) {
+			if (!warnedSearchError) {
+				warnedSearchError = true;
+				console.warn('Pagefind search failed.', error);
+			}
+
+			if (version === searchVersion) {
+				results = [];
+			}
+		} finally {
+			if (version === searchVersion) {
+				loading = false;
+			}
 		}
 	}
 
@@ -114,7 +338,7 @@
 			autocorrect="off"
 			spellcheck="false"
 			role="combobox"
-			aria-expanded={open && results.length > 0}
+			aria-expanded={open && (results.length > 0 || loading)}
 			aria-controls="docs-search-results"
 			aria-autocomplete="list"
 			class="block w-64 rounded-xl border-0 bg-ios-fill py-1.5 pr-12 pl-9 text-ios-label transition-colors outline-none placeholder:text-ios-gray focus:bg-ios-fill2 sm:text-sm sm:leading-6"
@@ -149,12 +373,18 @@
 						>
 							<div class="text-sm font-medium">{doc.title}</div>
 							{#if doc.excerpt}
-								<div class="mt-0.5 line-clamp-2 text-xs text-ios-secondary">{doc.excerpt}</div>
+								<div class="mt-0.5 line-clamp-2 text-xs text-ios-secondary">
+									{doc.excerpt}
+								</div>
 							{:else if doc.description}
 								<div class="mt-0.5 line-clamp-1 text-xs text-ios-secondary">{doc.description}</div>
 							{/if}
 						</a>
 					{/each}
+				{:else if loading}
+					<div class="px-3 py-3 text-sm text-ios-secondary">
+						{locale.ui.searchLoading || 'Searching...'}
+					</div>
 				{:else}
 					<div class="px-3 py-3 text-sm text-ios-secondary">{locale.ui.searchNoResults}</div>
 				{/if}
@@ -230,12 +460,18 @@
 							>
 								<div class="text-sm font-medium">{doc.title}</div>
 								{#if doc.excerpt}
-									<div class="mt-0.5 line-clamp-2 text-xs text-ios-secondary">{doc.excerpt}</div>
+									<div class="mt-0.5 line-clamp-2 text-xs text-ios-secondary">
+										{doc.excerpt}
+									</div>
 								{:else if doc.description}
 									<div class="mt-0.5 text-xs text-ios-secondary">{doc.description}</div>
 								{/if}
 							</a>
 						{/each}
+					{:else if loading}
+						<div class="px-3 py-6 text-center text-sm text-ios-secondary">
+							{locale.ui.searchLoading || 'Searching...'}
+						</div>
 					{:else}
 						<div class="px-3 py-6 text-center text-sm text-ios-secondary">
 							{locale.ui.searchNoResults}
