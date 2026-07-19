@@ -9,6 +9,8 @@ description: 这是文档页的起始。
 
 ## 技术栈
 
-使用`SvelteKit`+`MDsvex`+`Expressive Code`进行开发和md渲染。
+使用`SvelteKit`+`MDsveX`+`Expressive Code`进行开发和md渲染。
 
 使用`tailwindCSS`处理网站样式。
+
+使用`pagefind`做静态搜索
