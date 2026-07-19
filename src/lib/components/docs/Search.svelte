@@ -241,17 +241,22 @@
 		return pattern ? new RegExp(pattern, 'giu') : null;
 	}
 
-	function getFocusedExcerpt(value: string, searchQuery: string, maxLength = 96): string {
+	function getFocusedExcerpt(value: string, searchQuery: string, maxLength = 72): string {
 		const excerpt = value.trim();
-		if (excerpt.length <= maxLength) return excerpt;
 
 		const matcher = createSearchMatcher(searchQuery);
 		const match = matcher?.exec(excerpt);
-		if (!match) return `${excerpt.slice(0, maxLength).trimEnd()}...`;
+		if (!match) {
+			if (excerpt.length <= maxLength) return excerpt;
+			return `${excerpt.slice(0, maxLength).trimEnd()}...`;
+		}
 
 		const matchStart = match.index ?? 0;
 		const matchEnd = matchStart + match[0].length;
-		const beforeLength = Math.min(24, Math.floor(Math.max(0, maxLength - match[0].length) / 3));
+		const beforeLength = Math.min(18, Math.floor(Math.max(0, maxLength - match[0].length) / 3));
+
+		if (excerpt.length <= maxLength && matchStart <= beforeLength) return excerpt;
+
 		let start = Math.max(0, matchStart - beforeLength);
 		let end = Math.min(excerpt.length, start + maxLength);
 
