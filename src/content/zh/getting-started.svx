@@ -13,4 +13,4 @@ description: 这是文档页的起始。
 
 使用`tailwindCSS`处理网站样式。
 
-使用`pagefind`做静态搜索
+使用`pagefind`做静态搜索。
