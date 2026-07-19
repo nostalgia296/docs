@@ -196,6 +196,64 @@
 		return tokens.join(' ');
 	}
 
+	function normalizeResultHref(href: string): string {
+		if (/^[a-z][a-z\d+.-]*:/i.test(href) || href.startsWith('//')) return href;
+
+		const hashIndex = href.indexOf('#');
+		const hash = hashIndex === -1 ? '' : href.slice(hashIndex);
+		const withoutHash = hashIndex === -1 ? href : href.slice(0, hashIndex);
+		const queryIndex = withoutHash.indexOf('?');
+		const query = queryIndex === -1 ? '' : withoutHash.slice(queryIndex);
+		const pathname = queryIndex === -1 ? withoutHash : withoutHash.slice(0, queryIndex);
+
+		return `${pathname.replace(/\.html$/, '')}${query}${hash}`;
+	}
+
+	function escapeHtml(value: string): string {
+		return value
+			.replaceAll('&', '&amp;')
+			.replaceAll('<', '&lt;')
+			.replaceAll('>', '&gt;')
+			.replaceAll('"', '&quot;')
+			.replaceAll("'", '&#39;');
+	}
+
+	function escapeRegExp(value: string): string {
+		return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	}
+
+	function highlightTerms(value: string, searchQuery: string): string {
+		const trimmed = searchQuery.trim();
+		if (!trimmed) return escapeHtml(value);
+
+		const terms = new Set<string>([
+			trimmed,
+			...trimmed.split(/\s+/),
+			...normalizeSearchQuery(trimmed).split(/\s+/)
+		]);
+		const pattern = Array.from(terms)
+			.map((term) => term.trim())
+			.filter(Boolean)
+			.sort((a, b) => b.length - a.length)
+			.map(escapeRegExp)
+			.join('|');
+
+		if (!pattern) return escapeHtml(value);
+
+		const matcher = new RegExp(pattern, 'giu');
+		let highlighted = '';
+		let lastIndex = 0;
+
+		for (const match of value.matchAll(matcher)) {
+			const index = match.index ?? 0;
+			highlighted += escapeHtml(value.slice(lastIndex, index));
+			highlighted += `<mark class="search-highlight">${escapeHtml(match[0])}</mark>`;
+			lastIndex = index + match[0].length;
+		}
+
+		return highlighted + escapeHtml(value.slice(lastIndex));
+	}
+
 	async function loadPagefind(): Promise<Pagefind | null> {
 		if (pagefind) return pagefind;
 
@@ -241,6 +299,7 @@
 		const subResult = result.sub_results?.[0];
 		const href = subResult?.url || result.url;
 		if (!href) return null;
+		const normalizedHref = normalizeResultHref(href);
 
 		const pageTitle = result.meta?.title || result.url;
 		const title =
@@ -249,7 +308,7 @@
 				: pageTitle;
 
 		return {
-			href,
+			href: normalizedHref,
 			title,
 			description: '',
 			excerpt: subResult?.plain_excerpt || result.plain_excerpt || ''
@@ -371,13 +430,15 @@
 							onmouseenter={() => (activeIndex = i)}
 							onclick={() => closeAll()}
 						>
-							<div class="text-sm font-medium">{doc.title}</div>
+							<div class="text-sm font-medium">{@html highlightTerms(doc.title, query)}</div>
 							{#if doc.excerpt}
 								<div class="mt-0.5 line-clamp-2 text-xs text-ios-secondary">
-									{doc.excerpt}
+									{@html highlightTerms(doc.excerpt, query)}
 								</div>
 							{:else if doc.description}
-								<div class="mt-0.5 line-clamp-1 text-xs text-ios-secondary">{doc.description}</div>
+								<div class="mt-0.5 line-clamp-1 text-xs text-ios-secondary">
+									{@html highlightTerms(doc.description, query)}
+								</div>
 							{/if}
 						</a>
 					{/each}
@@ -458,13 +519,15 @@
 									: 'text-ios-label hover:bg-ios-fill'}"
 								onclick={() => closeAll()}
 							>
-								<div class="text-sm font-medium">{doc.title}</div>
+								<div class="text-sm font-medium">{@html highlightTerms(doc.title, query)}</div>
 								{#if doc.excerpt}
 									<div class="mt-0.5 line-clamp-2 text-xs text-ios-secondary">
-										{doc.excerpt}
+										{@html highlightTerms(doc.excerpt, query)}
 									</div>
 								{:else if doc.description}
-									<div class="mt-0.5 text-xs text-ios-secondary">{doc.description}</div>
+									<div class="mt-0.5 text-xs text-ios-secondary">
+										{@html highlightTerms(doc.description, query)}
+									</div>
 								{/if}
 							</a>
 						{/each}
@@ -482,3 +545,12 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	:global(.search-highlight) {
+		border-radius: 0.25rem;
+		background: rgba(0, 122, 255, 0.14);
+		color: rgb(0, 122, 255);
+		padding: 0 0.125rem;
+	}
+</style>
