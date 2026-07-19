@@ -1,0 +1,14 @@
+---
+title: 起点
+description: 这是文档页的起始。
+---
+
+## 你好！
+
+欢迎来到 Lai 的个人笔记与知识库。
+
+## 技术栈
+
+使用`SvelteKit`+`MDsvex`+`Expressive Code`进行开发和md渲染。
+
+使用`tailwindCSS`处理网站样式。
