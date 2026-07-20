@@ -1,0 +1,3 @@
+```
+sudo certbot certonly --manual --preferred-challenges dns -d "*.你的域名.com" -d "你的域名.com"
+```

@@ -1,0 +1,16 @@
+---
+title: certbot的手动dns验证模式
+description: 这是文档页的起始。
+---
+
+## 介绍
+
+有些时候购买到一些特殊的云服务器没有独立的ip（比如LXC云之类的），那么可能就需要通过手动验证获取证书。
+
+## 命令
+
+```bash
+sudo certbot certonly --manual --preferred-challenges dns -d "*.你的域名.com" -d "你的域名.com"
+```
+
+接着按照提示添加TXT记录验证。

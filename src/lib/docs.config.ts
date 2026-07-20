@@ -42,7 +42,12 @@ export interface DocsConfig {
 
 export const config: DocsConfig = {
 	defaultLocale: 'en',
-	socialLinks: [{ icon: 'github', link: 'https://github.com/nostalgia296/docs' }],
+	socialLinks: [
+		{
+			icon: 'github',
+			link: 'https://github.com/nostalgia296/docs'
+		}
+	],
 	locales: {
 		en: {
 			title: 'Lai',
@@ -60,11 +65,25 @@ export const config: DocsConfig = {
 				searchCancel: 'Cancel',
 				menu: 'Menu'
 			},
-			nav: [{ text: 'Notes', link: '/docs/getting-started' }],
+			nav: [
+				{
+					text: 'Notes',
+					link: '/docs/getting-started'
+				}
+			],
 			sidebar: [
 				{
 					text: 'My Notes',
-					items: [{ text: 'begining', link: '/docs/getting-started' }]
+					items: [
+						{
+							text: 'begining',
+							link: '/docs/getting-started'
+						},
+						{
+							text: 'certbot',
+							link: '/docs/certbot'
+						}
+					]
 				}
 			]
 		},
@@ -84,11 +103,25 @@ export const config: DocsConfig = {
 				searchCancel: '取消',
 				menu: '菜单'
 			},
-			nav: [{ text: '笔记', link: '/zh/docs/getting-started' }],
+			nav: [
+				{
+					text: '笔记',
+					link: '/zh/docs/getting-started'
+				}
+			],
 			sidebar: [
 				{
 					text: '我的笔记',
-					items: [{ text: '起点', link: '/zh/docs/getting-started' }]
+					items: [
+						{
+							text: '起点',
+							link: '/zh/docs/getting-started'
+						},
+						{
+							text: 'certbot的dns验证模式',
+							link: '/zh/docs/certbot'
+						}
+					]
 				}
 			]
 		}

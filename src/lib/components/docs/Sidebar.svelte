@@ -40,11 +40,9 @@
 
 <!-- Sidebar -->
 <aside
-	class="{isMobileOpen
-		? 'block'
-		: 'hidden'} mb-8 lg:mb-0 lg:block lg:w-64 lg:shrink-0 lg:pr-8"
+	class="{isMobileOpen ? 'block' : 'hidden'} mb-8 lg:mb-0 lg:block lg:w-64 lg:shrink-0 lg:pr-8"
 >
-	<nav class="scrollbar-thin max-h-[calc(100vh-8rem)] overflow-y-auto lg:sticky lg:top-24">
+	<nav class="max-h-[calc(100vh-8rem)] scrollbar-thin overflow-y-auto lg:sticky lg:top-24">
 		<ul class="flex flex-col gap-6">
 			{#each locale.sidebar as section}
 				<li>
