@@ -11,16 +11,16 @@
 </svelte:head>
 
 <div class="relative isolate overflow-hidden bg-ios-bg">
-	<div class="mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-32 lg:px-8 lg:py-32">
+	<div class="mx-auto max-w-7xl px-4 pt-6 pb-16 sm:px-6 sm:pb-32 lg:px-8 lg:py-32">
 		<div class="mx-auto max-w-2xl text-center">
-			<h1 class="mt-24 text-4xl font-bold tracking-tight text-ios-label sm:mt-32 sm:text-6xl">
+			<h1 class="mt-12 text-3xl font-bold tracking-tight text-ios-label sm:mt-32 sm:text-6xl">
 				{locale.title.split(' ')[0]}
 				<span class="text-ios-blue">{locale.title.split(' ').slice(1).join(' ')}</span>
 			</h1>
-			<p class="mt-6 text-lg leading-8 text-ios-secondary">
+			<p class="mt-5 text-base leading-7 text-ios-secondary sm:mt-6 sm:text-lg sm:leading-8">
 				{locale.description}
 			</p>
-			<div class="mt-10 flex items-center justify-center gap-x-6">
+			<div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:mt-10">
 				<a
 					href={currentLang === config.defaultLocale
 						? '/docs/getting-started'
@@ -28,7 +28,7 @@
 					class="rounded-xl bg-ios-blue px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-ios-blue-press focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ios-blue active:scale-95"
 					>{locale.ui.getStarted}</a
 				>
-				{#each config.socialLinks as link}
+				{#each config.socialLinks as link (link.link)}
 					{#if link.icon === 'github'}
 						<a
 							href={link.link}
@@ -43,6 +43,5 @@
 				{/each}
 			</div>
 		</div>
-
 	</div>
 </div>

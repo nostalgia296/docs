@@ -72,7 +72,7 @@
 		</h3>
 		{#if headings.length > 0}
 			<ul class="flex flex-col gap-2.5 border-l border-ios-separator pl-4">
-				{#each headings as heading}
+				{#each headings as heading (heading.id)}
 					<li>
 						<a
 							href="#{heading.id}"
@@ -95,7 +95,7 @@
 <!-- Mobile TOC Floating Button -->
 {#if headings.length > 0}
 	<button
-		class="fixed right-6 bottom-8 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-ios-blue text-white shadow-xl transition-transform hover:scale-105 active:scale-95 xl:hidden"
+		class="fixed right-4 bottom-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-ios-blue text-white shadow-xl transition-transform hover:scale-105 active:scale-95 sm:right-6 sm:bottom-8 sm:h-14 sm:w-14 xl:hidden"
 		onclick={() => (isMobileTocOpen = true)}
 		aria-label="Table of Contents"
 	>
@@ -123,7 +123,7 @@
 	></div>
 
 	<div
-		class="fixed inset-x-0 bottom-0 z-50 flex max-h-[80vh] flex-col rounded-t-3xl bg-ios-bg p-6 shadow-2xl xl:hidden"
+		class="fixed inset-x-0 bottom-0 z-50 flex max-h-[80vh] flex-col rounded-t-2xl bg-ios-bg p-4 shadow-2xl sm:rounded-t-3xl sm:p-6 xl:hidden"
 		transition:fly={{ y: '100%', duration: 300, easing: cubicOut }}
 	>
 		<div class="mb-6 flex shrink-0 items-center justify-between">
@@ -146,7 +146,7 @@
 
 		<div class="scrollbar-thin overflow-y-auto pb-6">
 			<ul class="flex flex-col gap-4 border-l border-ios-separator pl-4">
-				{#each headings as heading}
+				{#each headings as heading (heading.id)}
 					<li>
 						<a
 							href="#{heading.id}"

@@ -103,56 +103,73 @@
 	.prose-custom {
 		@apply prose max-w-none;
 		/* Typography & Colors */
-		@apply text-ios-label leading-relaxed;
+		@apply leading-relaxed text-ios-label;
 
 		/* Headings */
 		@apply prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-ios-label;
-		@apply prose-h1:text-4xl prose-h1:font-bold prose-h1:tracking-tighter prose-h1:mb-8;
-		@apply prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-b prose-h2:border-ios-separator prose-h2:pb-2 prose-h2:transition-colors;
-		@apply prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4;
+		@apply prose-h1:mb-6 prose-h1:text-3xl prose-h1:font-bold prose-h1:tracking-tighter sm:prose-h1:mb-8 sm:prose-h1:text-4xl;
+		@apply prose-h2:mt-10 prose-h2:mb-5 prose-h2:border-b prose-h2:border-ios-separator prose-h2:pb-2 prose-h2:text-xl prose-h2:transition-colors sm:prose-h2:mt-12 sm:prose-h2:mb-6 sm:prose-h2:text-2xl;
+		@apply prose-h3:mt-7 prose-h3:mb-3 prose-h3:text-lg sm:prose-h3:mt-8 sm:prose-h3:mb-4 sm:prose-h3:text-xl;
 
 		/* Paragraphs & Lists */
-		@apply prose-p:text-ios-secondary prose-p:leading-8 prose-p:mb-6;
-		@apply prose-ul:text-ios-secondary prose-ul:my-6 prose-li:my-2;
-		@apply prose-ol:text-ios-secondary prose-ol:my-6;
+		@apply prose-p:mb-4 prose-p:leading-7 prose-p:text-ios-secondary sm:prose-p:mb-6 sm:prose-p:leading-8;
+		@apply prose-ul:my-4 prose-ul:text-ios-secondary sm:prose-ul:my-6 prose-li:my-1.5 sm:prose-li:my-2;
+		@apply prose-ol:my-4 prose-ol:text-ios-secondary sm:prose-ol:my-6;
 
 		/* Links */
 		@apply prose-a:font-medium prose-a:text-ios-blue prose-a:no-underline;
-		@apply hover:prose-a:underline hover:prose-a:underline-offset-4 hover:prose-a:decoration-ios-blue/50;
+		@apply hover:prose-a:underline hover:prose-a:decoration-ios-blue/50 hover:prose-a:underline-offset-4;
 		@apply prose-a:transition-all prose-a:duration-200;
 
 		/* Blockquotes */
 		@apply prose-blockquote:border-l-4 prose-blockquote:border-ios-blue prose-blockquote:bg-ios-blue/5 dark:prose-blockquote:bg-ios-blue/10;
-		@apply prose-blockquote:pl-4 prose-blockquote:py-2 prose-blockquote:my-8 prose-blockquote:rounded-r-xl;
+		@apply prose-blockquote:my-8 prose-blockquote:rounded-r-xl prose-blockquote:py-2 prose-blockquote:pl-4;
 		@apply prose-blockquote:text-ios-secondary prose-blockquote:not-italic;
-		@apply [&_blockquote_p::before]:content-none [&_blockquote_p::after]:content-none;
+		@apply [&_blockquote_p::after]:content-none [&_blockquote_p::before]:content-none;
 
 		/* Code & Pre (Inline code mainly) */
-		@apply prose-code:font-mono prose-code:text-[0.875em] prose-code:break-words prose-code:rounded-md;
-		@apply prose-code:bg-ios-blue/10 dark:prose-code:bg-ios-blue/20 prose-code:px-1.5 prose-code:py-0.5;
-		@apply prose-code:text-ios-blue prose-code:font-medium;
+		@apply prose-code:rounded-md prose-code:font-mono prose-code:text-[0.875em] prose-code:break-words;
+		@apply prose-code:bg-ios-blue/10 prose-code:px-1.5 prose-code:py-0.5 dark:prose-code:bg-ios-blue/20;
+		@apply prose-code:font-medium prose-code:text-ios-blue;
 		@apply prose-code:before:content-none prose-code:after:content-none;
 
 		/* Preformatted blocks */
-		@apply prose-pre:font-mono prose-pre:text-sm prose-pre:border prose-pre:border-ios-separator;
-		@apply prose-pre:bg-[#1c1c1e] dark:prose-pre:bg-[#000000] prose-pre:text-[#ebebf5];
-		@apply prose-pre:shadow-sm prose-pre:rounded-xl prose-pre:my-8 prose-pre:p-5;
+		@apply prose-pre:overflow-x-auto prose-pre:border prose-pre:border-ios-separator prose-pre:font-mono prose-pre:text-xs sm:prose-pre:text-sm;
+		@apply prose-pre:bg-[#1c1c1e] prose-pre:text-[#ebebf5] dark:prose-pre:bg-[#000000];
+		@apply prose-pre:my-6 prose-pre:rounded-xl prose-pre:p-4 prose-pre:shadow-sm sm:prose-pre:my-8 sm:prose-pre:p-5;
 
 		/* Images */
-		@apply prose-img:rounded-2xl prose-img:shadow-sm prose-img:border prose-img:border-ios-separator prose-img:my-8;
+		@apply prose-img:my-8 prose-img:rounded-2xl prose-img:border prose-img:border-ios-separator prose-img:shadow-sm;
 		@apply prose-img:transition-transform prose-img:duration-300 hover:prose-img:scale-[1.01];
 
 		/* Tables */
-		@apply prose-table:border-collapse prose-table:w-full prose-table:my-8 prose-table:text-sm prose-table:overflow-hidden prose-table:rounded-xl prose-table:shadow-sm prose-table:ring-1 prose-table:ring-ios-separator;
-		@apply prose-th:bg-ios-fill prose-th:border-b prose-th:border-ios-separator prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-semibold prose-th:text-ios-label;
+		@apply prose-table:my-8 prose-table:w-full prose-table:border-collapse prose-table:overflow-hidden prose-table:rounded-xl prose-table:text-sm prose-table:shadow-sm prose-table:ring-1 prose-table:ring-ios-separator;
+		@apply prose-th:border-b prose-th:border-ios-separator prose-th:bg-ios-fill prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-semibold prose-th:text-ios-label;
 		@apply prose-td:border-b prose-td:border-ios-separator prose-td:px-4 prose-td:py-3 prose-td:text-ios-secondary;
 		@apply prose-tr:last:border-b-0;
-		@apply hover:prose-tr:bg-ios-fill/50 prose-tr:transition-colors;
+		@apply prose-tr:transition-colors hover:prose-tr:bg-ios-fill/50;
 
 		/* Strong & Emp */
-		@apply prose-strong:text-ios-label prose-strong:font-semibold;
+		@apply prose-strong:font-semibold prose-strong:text-ios-label;
 
 		/* HR */
-		@apply prose-hr:border-ios-separator prose-hr:my-10;
+		@apply prose-hr:my-10 prose-hr:border-ios-separator;
+	}
+
+	.prose-custom :where(a, h1, h2, h3, p, li, td, th) {
+		overflow-wrap: anywhere;
+	}
+
+	.prose-custom :where(table) {
+		display: block;
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+
+	@media (min-width: 640px) {
+		.prose-custom :where(table) {
+			display: table;
+			white-space: normal;
+		}
 	}
 }

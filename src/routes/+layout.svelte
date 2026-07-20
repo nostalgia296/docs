@@ -21,13 +21,13 @@
 
 <div class="flex min-h-screen flex-col selection:bg-ios-blue selection:text-white">
 	<header class="ios-blur sticky top-0 z-50 w-full border-b border-ios-separator">
-		<div class="flex h-14 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
-			<div class="flex items-center gap-6">
+		<div class="flex h-14 w-full items-center justify-between gap-2 px-3 sm:px-6 lg:px-8">
+			<div class="flex min-w-0 items-center gap-3 sm:gap-6">
 				<a
 					href={currentLang === config.defaultLocale ? '/' : `/${currentLang}`}
-					class="flex items-center gap-2 text-lg font-semibold tracking-tight text-ios-label"
+					class="flex min-w-0 items-center gap-2 text-lg font-semibold tracking-tight text-ios-label"
 				>
-					<svg class="h-6 w-6 text-ios-blue" viewBox="0 0 24 24" fill="currentColor"
+					<svg class="h-6 w-6 shrink-0 text-ios-blue" viewBox="0 0 24 24" fill="currentColor"
 						><path
 							d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
 							stroke="currentColor"
@@ -36,21 +36,21 @@
 							fill="none"
 						/></svg
 					>
-					{locale.title}
+					<span class="truncate">{locale.title}</span>
 				</a>
 				<nav class="hidden gap-6 text-sm font-medium text-ios-secondary md:flex">
-					{#each locale.nav as item}
+					{#each locale.nav as item (item.link)}
 						<a href={item.link} class="transition-colors hover:text-ios-label">{item.text}</a>
 					{/each}
 				</nav>
 			</div>
 
-			<div class="flex items-center gap-3 sm:gap-4">
+			<div class="flex shrink-0 items-center gap-1.5 sm:gap-4">
 				<Search {locale} lang={currentLang} />
 
 				<!-- Language Switcher -->
-				<div class="flex items-center gap-2 border-l border-ios-separator pl-3 sm:pl-4">
-					{#each Object.keys(config.locales) as langKey}
+				<div class="flex items-center gap-1 border-l border-ios-separator pl-2 sm:gap-2 sm:pl-4">
+					{#each Object.keys(config.locales) as langKey (langKey)}
 						<a
 							href={localizePath($page.url.pathname, langKey)}
 							class="rounded-md px-2 py-1 text-xs font-medium transition-colors {currentLang ===
@@ -93,7 +93,7 @@
 						/></svg
 					>
 				</button>
-				{#each config.socialLinks as link}
+				{#each config.socialLinks as link (link.link)}
 					{#if link.icon === 'github'}
 						<a
 							href={link.link}

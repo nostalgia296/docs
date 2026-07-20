@@ -2,11 +2,11 @@
 	let { prevLink, nextLink, locale } = $props();
 </script>
 
-<div class="mt-8 flex items-center justify-between border-t border-ios-separator pt-8">
+<div class="mt-8 grid grid-cols-2 gap-4 border-t border-ios-separator pt-6 sm:pt-8">
 	{#if prevLink}
 		<a
 			href={prevLink.link}
-			class="group flex flex-col items-start gap-1 text-sm text-ios-secondary transition-colors hover:text-ios-blue"
+			class="group flex min-w-0 flex-col items-start gap-1 text-sm text-ios-secondary transition-colors hover:text-ios-blue"
 		>
 			<span class="flex items-center gap-1 text-xs text-ios-gray">
 				<svg
@@ -23,7 +23,9 @@
 				>
 				{locale.ui.previous}
 			</span>
-			<span class="font-medium text-ios-label group-hover:text-ios-blue">{prevLink.text}</span>
+			<span class="font-medium break-words text-ios-label group-hover:text-ios-blue"
+				>{prevLink.text}</span
+			>
 		</a>
 	{:else}
 		<div></div>
@@ -32,7 +34,7 @@
 	{#if nextLink}
 		<a
 			href={nextLink.link}
-			class="group flex flex-col items-end gap-1 text-sm text-ios-secondary transition-colors hover:text-ios-blue"
+			class="group flex min-w-0 flex-col items-end gap-1 text-right text-sm text-ios-secondary transition-colors hover:text-ios-blue"
 		>
 			<span class="flex items-center gap-1 text-xs text-ios-gray">
 				{locale.ui.next}
@@ -49,7 +51,9 @@
 					/></svg
 				>
 			</span>
-			<span class="font-medium text-ios-label group-hover:text-ios-blue">{nextLink.text}</span>
+			<span class="font-medium break-words text-ios-label group-hover:text-ios-blue"
+				>{nextLink.text}</span
+			>
 		</a>
 	{:else}
 		<div></div>
