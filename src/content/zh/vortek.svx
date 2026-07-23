@@ -1,0 +1,41 @@
+---
+title: vortek-termux使用文档
+description: 
+---
+
+### 原理
+
+通过`sokect`将客户端的信息转发给服务端，服务端实现图形渲染。
+
+### 服务端启动
+
+服务端启动前需要先启动x11服务。
+
+```bash
+termux-x11 :0 &
+```
+
+`VORTEK_CLI_X11_WSI`变量在termux cli启动必须设置.
+
+启动实例:
+
+```bash
+DISPLAY=:0 VORTEK_CLI_X11_WSI=1 ./vortekrenderer-cli &
+```
+
+其他环境变量:
+
+`VORTEK_CLI_X11_DRI3`: 是否使用`Termux-x11 DRI3`,默认启动，0时强制禁用，如果dri3模式运行失败，回退到gpu -> cpu模式。
+
+`VORTEK_CLI_X11_SHM`: 0时禁用`MIT-SHM`,仅供测试，不推荐设置。
+
+`VORTEK_CLI_X11_DRI3_DEBUG`: 1时启用dri3日志输出
+
+
+### 客户端启用
+后面再写
+
+启动实例
+```bash
+DISPLAY=:0 vkmark
+```
