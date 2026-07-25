@@ -45,6 +45,6 @@ DISPLAY=:0 VORTEK_CLI_X11_WSI=1 ./vortekrenderer-cli &
 DISPLAY=:0 vkmark
 ```
 
-### 关于Bcn_layer
+### 关于BCn_layer
 
 后面再写，累了,一般无需启用，影响性能。
