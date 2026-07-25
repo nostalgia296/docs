@@ -2,6 +2,7 @@
 	import { afterNavigate, goto } from '$app/navigation';
 	import type { LocaleConfig } from '$lib/docs.config';
 	import { onMount } from 'svelte';
+	import { Search as SearchIcon } from '@lucide/svelte';
 
 	type PagefindSearchOptions = {
 		filters?: Record<string, string | string[]>;
@@ -414,14 +415,7 @@
 	<!-- Desktop search -->
 	<div class="relative hidden md:block">
 		<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-ios-gray">
-			<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-				/>
-			</svg>
+			<SearchIcon class="h-4 w-4" strokeWidth={2.5} />
 		</div>
 		<input
 			bind:this={inputEl}
@@ -490,18 +484,11 @@
 	<!-- Mobile search trigger -->
 	<button
 		type="button"
-		class="rounded-full p-1.5 text-ios-secondary transition-colors hover:bg-ios-fill md:hidden"
+		class="flex h-8 w-8 items-center justify-center text-ios-secondary transition-all duration-300 hover:text-ios-blue active:scale-90 md:hidden"
 		aria-label={locale.ui.search}
 		onclick={openMobile}
 	>
-		<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			<path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
-				d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-			/>
-		</svg>
+		<SearchIcon class="h-5 w-5" strokeWidth={2} />
 	</button>
 
 	<!-- Mobile full-screen search -->
@@ -512,14 +499,7 @@
 					<div
 						class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-ios-gray"
 					>
-						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-							/>
-						</svg>
+						<SearchIcon class="h-4 w-4" strokeWidth={2.5} />
 					</div>
 					<input
 						bind:this={mobileInputEl}

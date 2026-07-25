@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 	import { localizePath } from '$lib/i18n';
 	import { toggleTheme } from '$lib/theme';
+	import { Layers, Sun, Moon } from '@lucide/svelte';
 	import Search from '$lib/components/docs/Search.svelte';
 
 	let { children } = $props();
@@ -17,47 +18,71 @@
 			document.documentElement.lang = currentLang;
 		}
 	});
+
+	// A nav item is active when the current path lives under its section prefix
+	function isNavActive(link: string, pathname: string): boolean {
+		if (pathname === link) return true;
+		const prefix = link.split('/').slice(0, -1).join('/');
+		return prefix.length > 1 && pathname.startsWith(prefix);
+	}
 </script>
 
 <div class="flex min-h-screen flex-col selection:bg-ios-blue selection:text-white">
 	<header class="ios-blur sticky top-0 z-50 w-full border-b border-ios-separator">
 		<div class="flex h-14 w-full items-center justify-between gap-2 px-3 sm:px-6 lg:px-8">
-			<div class="flex min-w-0 items-center gap-3 sm:gap-6">
+			<div class="flex min-w-0 items-center gap-3 sm:gap-8">
 				<a
 					href={currentLang === config.defaultLocale ? '/' : `/${currentLang}`}
-					class="flex min-w-0 items-center gap-2 text-lg font-semibold tracking-tight text-ios-label"
+					class="group flex min-w-0 items-center gap-2.5"
 				>
-					<svg class="h-6 w-6 shrink-0 text-ios-blue" viewBox="0 0 24 24" fill="currentColor"
-						><path
-							d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linejoin="round"
-							fill="none"
-						/></svg
+					<Layers
+						class="h-5 w-5 shrink-0 text-ios-blue transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-[-8deg] group-hover:scale-110"
+						strokeWidth={2.5}
+					/>
+					<span class="truncate text-lg font-semibold tracking-tight text-ios-label"
+						>{locale.title}</span
 					>
-					<span class="truncate">{locale.title}</span>
 				</a>
-				<nav class="hidden gap-6 text-sm font-medium text-ios-secondary md:flex">
+				<nav class="hidden items-center gap-6 md:flex">
 					{#each locale.nav as item (item.link)}
-						<a href={item.link} class="transition-colors hover:text-ios-label">{item.text}</a>
+						{@const active = isNavActive(item.link, $page.url.pathname)}
+						<a
+							href={item.link}
+							class="group relative py-1 font-mono text-[11px] font-medium tracking-[0.2em] uppercase transition-colors duration-300 {active
+								? 'text-ios-blue'
+								: 'text-ios-secondary hover:text-ios-label'}"
+						>
+							{item.text}
+							<span
+								class="absolute inset-x-0 -bottom-0.5 h-[2px] origin-left rounded-full bg-ios-blue transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] {active
+									? 'scale-x-100'
+									: 'scale-x-0 group-hover:scale-x-100'}"
+							></span>
+						</a>
 					{/each}
 				</nav>
 			</div>
 
-			<div class="flex shrink-0 items-center gap-1.5 sm:gap-4">
+			<div class="flex shrink-0 items-center gap-1 sm:gap-3">
 				<Search {locale} lang={currentLang} />
 
 				<!-- Language Switcher -->
-				<div class="flex items-center gap-1 border-l border-ios-separator pl-2 sm:gap-2 sm:pl-4">
+				<div
+					class="flex items-center gap-2.5 border-l border-ios-separator pl-2.5 sm:gap-3 sm:pl-4"
+				>
 					{#each Object.keys(config.locales) as langKey (langKey)}
+						{@const active = currentLang === langKey}
 						<a
 							href={localizePath($page.url.pathname, langKey)}
-							class="rounded-md px-2 py-1 text-xs font-medium transition-colors {currentLang ===
-							langKey
-								? 'bg-ios-fill text-ios-label'
-								: 'text-ios-secondary hover:text-ios-label'}"
+							class="flex items-center gap-1 font-mono text-[11px] font-medium tracking-[0.15em] transition-colors duration-300 {active
+								? 'text-ios-blue'
+								: 'text-ios-gray hover:text-ios-label'}"
 						>
+							<span
+								class="h-1 w-1 rounded-full bg-ios-blue transition-all duration-300 {active
+									? 'scale-100 opacity-100'
+									: 'scale-0 opacity-0'}"
+							></span>
 							{langKey.toUpperCase()}
 						</a>
 					{/each}
@@ -65,41 +90,26 @@
 
 				<button
 					onclick={toggleTheme}
-					class="rounded-full p-1.5 text-ios-secondary transition-colors hover:bg-ios-fill"
+					class="relative flex h-8 w-8 items-center justify-center text-ios-secondary transition-all duration-300 hover:text-ios-blue active:scale-90"
 					aria-label="Toggle Dark Mode"
 				>
-					<svg
-						class="hidden h-5 w-5 dark:block"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						><path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-						/></svg
-					>
-					<svg
-						class="block h-5 w-5 dark:hidden"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						><path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-						/></svg
-					>
+					<Sun
+						class="absolute h-5 w-5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] scale-100 rotate-0 dark:-rotate-90 dark:scale-0"
+						strokeWidth={2}
+					/>
+					<Moon
+						class="absolute h-5 w-5 scale-0 rotate-90 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] dark:scale-100 dark:rotate-0"
+						strokeWidth={2}
+					/>
 				</button>
+
 				{#each config.socialLinks as link (link.link)}
 					{#if link.icon === 'github'}
 						<a
 							href={link.link}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="text-ios-secondary transition-colors hover:text-ios-label"
+							class="text-ios-secondary transition-all duration-300 hover:-translate-y-0.5 hover:text-ios-label"
 						>
 							<span class="sr-only">GitHub</span>
 							<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"

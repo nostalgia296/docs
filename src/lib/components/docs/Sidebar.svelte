@@ -79,10 +79,10 @@
 										</span>
 										<span class="min-w-0 flex-1 truncate">{link.text}</span>
 										<ArrowUpRight
-											class="h-4 w-4 shrink-0 transition-all duration-300 {active
-												? 'translate-0 text-ios-blue opacity-100'
-												: '-translate-x-1 text-ios-gray3 opacity-0 group-hover:translate-0 group-hover:opacity-100'}"
-											strokeWidth={2}
+											class="h-4 w-4 shrink-0 text-ios-blue transition-all duration-300 {active
+												? 'translate-0 opacity-100'
+												: '-translate-x-1 opacity-0 group-hover:translate-0 group-hover:opacity-100'}"
+											strokeWidth={2.5}
 										/>
 									</a>
 								{:else}
@@ -107,9 +107,9 @@
 										</span>
 										<span class="min-w-0 flex-1 truncate">{link.text}</span>
 										<ChevronRight
-											class="h-3.5 w-3.5 shrink-0 transition-all duration-300 {active
-												? 'translate-0 text-ios-blue/80 opacity-100'
-												: '-translate-x-1 opacity-0 group-hover:translate-0 group-hover:text-ios-gray group-hover:opacity-100'}"
+											class="h-4 w-4 shrink-0 text-ios-blue transition-all duration-300 {active
+												? 'translate-0 opacity-100'
+												: '-translate-x-1 opacity-0 group-hover:translate-0 group-hover:opacity-100'}"
 											strokeWidth={2.5}
 										/>
 									</a>
@@ -131,11 +131,7 @@
 		aria-label={locale.ui.menu || 'Menu'}
 	>
 		<span class="flex items-center gap-3">
-			<span
-				class="flex h-8 w-8 items-center justify-center rounded-xl bg-ios-blue/10 text-ios-blue transition-colors duration-300 group-hover:bg-ios-blue group-hover:text-white dark:bg-ios-blue/20"
-			>
-				<PanelLeft class="h-4.5 w-4.5" strokeWidth={2} />
-			</span>
+			<PanelLeft class="h-5 w-5 shrink-0 text-ios-blue" strokeWidth={2.5} />
 			<span class="text-sm font-medium text-ios-label">{locale.ui.menu || 'Menu'}</span>
 			<span
 				class="rounded-full bg-ios-fill px-2 py-0.5 font-mono text-[10px] font-medium tracking-wider text-ios-secondary"
@@ -144,7 +140,7 @@
 			</span>
 		</span>
 		<ChevronRight
-			class="h-4 w-4 text-ios-gray3 transition-transform duration-300 group-hover:translate-x-0.5"
+			class="h-4 w-4 text-ios-blue transition-transform duration-300 group-hover:translate-x-0.5"
 			strokeWidth={2.5}
 		/>
 	</button>
