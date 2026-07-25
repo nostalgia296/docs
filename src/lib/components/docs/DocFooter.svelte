@@ -1,61 +1,80 @@
 <script lang="ts">
+	import { ArrowLeft, ArrowRight } from '@lucide/svelte';
+
 	let { prevLink, nextLink, locale } = $props();
 </script>
 
-<div class="mt-8 grid grid-cols-2 gap-4 border-t border-ios-separator pt-6 sm:pt-8">
+<nav
+	class="mt-10 grid grid-cols-1 gap-3 border-t border-ios-separator pt-8 sm:mt-12 sm:grid-cols-2 sm:gap-4 sm:pt-10"
+	aria-label="Pagination"
+>
 	{#if prevLink}
 		<a
 			href={prevLink.link}
-			class="group flex min-w-0 flex-col items-start gap-1 text-sm text-ios-secondary transition-colors hover:text-ios-blue"
+			class="group relative flex min-w-0 items-center gap-4 overflow-hidden rounded-2xl border border-ios-separator bg-ios-card p-4 shadow-sm transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:border-ios-blue/40 hover:shadow-lg hover:shadow-ios-blue/5 sm:p-5 {nextLink
+				? ''
+				: 'sm:col-span-2'}"
 		>
-			<span class="flex items-center gap-1 text-xs text-ios-gray">
-				<svg
-					class="h-4 w-4 transition-transform group-hover:-translate-x-1"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M15 19l-7-7 7-7"
-					/></svg
-				>
-				{locale.ui.previous}
-			</span>
-			<span class="font-medium break-words text-ios-label group-hover:text-ios-blue"
-				>{prevLink.text}</span
+			<!-- Hover sheen -->
+			<span
+				class="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-ios-blue/8 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+			></span>
+
+			<span
+				class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-ios-separator bg-ios-bg text-ios-secondary transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-x-1 group-hover:border-ios-blue group-hover:bg-ios-blue group-hover:text-white sm:h-11 sm:w-11"
 			>
+				<ArrowLeft class="h-4.5 w-4.5" strokeWidth={2} />
+			</span>
+
+			<span class="flex min-w-0 flex-col gap-1">
+				<span
+					class="font-mono text-[10px] font-medium tracking-[0.2em] text-ios-gray uppercase transition-colors duration-300 group-hover:text-ios-blue"
+				>
+					{locale.ui.previous}
+				</span>
+				<span
+					class="truncate text-sm font-semibold text-ios-label transition-colors duration-300 group-hover:text-ios-blue sm:text-[15px]"
+				>
+					{prevLink.text}
+				</span>
+			</span>
 		</a>
 	{:else}
-		<div></div>
+		<div class="hidden sm:block"></div>
 	{/if}
 
 	{#if nextLink}
 		<a
 			href={nextLink.link}
-			class="group flex min-w-0 flex-col items-end gap-1 text-right text-sm text-ios-secondary transition-colors hover:text-ios-blue"
+			class="group relative flex min-w-0 items-center justify-end gap-4 overflow-hidden rounded-2xl border border-ios-separator bg-ios-card p-4 text-right shadow-sm transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:border-ios-blue/40 hover:shadow-lg hover:shadow-ios-blue/5 sm:p-5 {prevLink
+				? ''
+				: 'sm:col-span-2'}"
 		>
-			<span class="flex items-center gap-1 text-xs text-ios-gray">
-				{locale.ui.next}
-				<svg
-					class="h-4 w-4 transition-transform group-hover:translate-x-1"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M9 5l7 7-7 7"
-					/></svg
+			<!-- Hover sheen -->
+			<span
+				class="pointer-events-none absolute inset-0 translate-x-full bg-gradient-to-l from-transparent via-ios-blue/8 to-transparent transition-transform duration-700 ease-out group-hover:-translate-x-full"
+			></span>
+
+			<span class="flex min-w-0 flex-col gap-1">
+				<span
+					class="font-mono text-[10px] font-medium tracking-[0.2em] text-ios-gray uppercase transition-colors duration-300 group-hover:text-ios-blue"
 				>
+					{locale.ui.next}
+				</span>
+				<span
+					class="truncate text-sm font-semibold text-ios-label transition-colors duration-300 group-hover:text-ios-blue sm:text-[15px]"
+				>
+					{nextLink.text}
+				</span>
 			</span>
-			<span class="font-medium break-words text-ios-label group-hover:text-ios-blue"
-				>{nextLink.text}</span
+
+			<span
+				class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-ios-separator bg-ios-bg text-ios-secondary transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:translate-x-1 group-hover:border-ios-blue group-hover:bg-ios-blue group-hover:text-white sm:h-11 sm:w-11"
 			>
+				<ArrowRight class="h-4.5 w-4.5" strokeWidth={2} />
+			</span>
 		</a>
 	{:else}
-		<div></div>
+		<div class="hidden sm:block"></div>
 	{/if}
-</div>
+</nav>
