@@ -65,7 +65,9 @@
 											delay: 120 + globalIndex(si, ii) * 45,
 											easing: cubicOut
 										}}
-										class="group relative flex items-center gap-3 overflow-hidden rounded-2xl px-4 py-3 text-[15px] transition-colors duration-200 {active
+										class="group relative flex items-center gap-3 overflow-hidden {active
+											? ''
+											: 'rounded-2xl'} px-4 py-3 text-[15px] transition-colors duration-200 {active
 											? 'bg-ios-blue/12 font-semibold text-ios-blue dark:bg-ios-blue/20'
 											: 'text-ios-secondary hover:bg-ios-fill hover:text-ios-label'}"
 									>
@@ -88,7 +90,9 @@
 								{:else}
 									<a
 										href={link.link}
-										class="group relative flex items-center gap-2.5 rounded-xl py-2 pr-3 pl-3 text-sm transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] {active
+										class="group relative flex items-center gap-2.5 {active
+											? ''
+											: 'rounded-xl'} py-2 pr-3 pl-3 text-sm transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] {active
 											? 'bg-gradient-to-r from-ios-blue/15 via-ios-blue/8 to-transparent font-medium text-ios-blue dark:from-ios-blue/25 dark:via-ios-blue/12'
 											: 'text-ios-secondary hover:translate-x-1 hover:bg-ios-fill hover:text-ios-label'}"
 									>
@@ -175,13 +179,9 @@
 		aria-label={locale.ui.menu || 'Menu'}
 	>
 		<!-- Drawer header -->
-		<div
-			class="flex shrink-0 items-center justify-between border-b border-ios-separator px-5 py-4"
-		>
+		<div class="flex shrink-0 items-center justify-between border-b border-ios-separator px-5 py-4">
 			<div class="flex items-baseline gap-2.5">
-				<span
-					class="font-mono text-[10px] font-medium tracking-[0.2em] text-ios-blue uppercase"
-				>
+				<span class="font-mono text-[10px] font-medium tracking-[0.2em] text-ios-blue uppercase">
 					{locale.title}
 				</span>
 				<span class="text-sm font-semibold text-ios-label">{locale.ui.menu || 'Menu'}</span>
@@ -196,13 +196,15 @@
 		</div>
 
 		<!-- Drawer nav -->
-		<nav class="scrollbar-thin flex-1 overflow-y-auto px-3 py-5">
+		<nav class="flex-1 scrollbar-thin overflow-y-auto px-3 py-5">
 			{@render navItems(true)}
 		</nav>
 
 		<!-- Drawer footer: progress hint -->
 		<div class="shrink-0 border-t border-ios-separator px-5 py-3.5">
-			<div class="flex items-center justify-between font-mono text-[10px] tracking-widest text-ios-gray uppercase">
+			<div
+				class="flex items-center justify-between font-mono text-[10px] tracking-widest text-ios-gray uppercase"
+			>
 				<span>{String(totalItems).padStart(2, '0')} notes</span>
 				<span class="text-ios-gray3">{locale.title}</span>
 			</div>
