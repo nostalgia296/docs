@@ -25,17 +25,26 @@ DISPLAY=:0 VORTEK_CLI_X11_WSI=1 ./vortekrenderer-cli &
 
 其他环境变量:
 
-`VORTEK_CLI_X11_DRI3`: 是否使用`Termux-x11 DRI3`,默认启动，0时强制禁用，如果dri3模式运行失败，回退到gpu -> cpu模式。
+`VORTEK_CLI_X11_DRI3`: 是否使用`Termux-x11 DRI3(AHardwareBuffer)`,默认启动，优先尝试`zero-copy`，如果失败，在尝试走`blit`，0时强制禁用，如果dri3模式运行失败，回退到cpu readback。
 
 `VORTEK_CLI_X11_SHM`: 0时禁用`MIT-SHM`,仅供测试，不推荐设置。
 
 `VORTEK_CLI_X11_DRI3_DEBUG`: 1时启用dri3日志输出
 
+性能 `X11+AHB` > `X11+AHB+Blit` > `CPU Readback`
 
 ### 客户端启用
-后面再写
+客户端的sokect路径硬编码至Termux的`/data/data/com.termux/files/usr/tmp/.vortek/V0'。如果尝试在proot容器使用的话，可以挂载Termux的tmp路径到proot容器，并修改`sokect`路径，重新编译客户端。
+
+进入termux-glibc环境过后，设置`VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/vortek_icd.aarch64.json`
+
+按启动实例方式启动即可。
 
 启动实例
 ```bash
 DISPLAY=:0 vkmark
 ```
+
+### 关于Bcn_layer
+
+后面再写，累了,一般无需启用，影响性能。
