@@ -34,7 +34,7 @@ DISPLAY=:0 VORTEK_CLI_X11_WSI=1 ./vortekrenderer-cli &
 性能 `X11+AHB` > `X11+AHB+Blit` > `CPU Readback`
 
 ### 客户端启用
-客户端的sokect路径硬编码至Termux的`/data/data/com.termux/files/usr/tmp/.vortek/V0'。如果尝试在proot容器使用的话，可以挂载Termux的tmp路径到proot容器，并修改`sokect`路径，重新编译客户端。
+客户端的sokect路径硬编码至Termux的`/data/data/com.termux/files/usr/tmp/.vortek/V0`。如果尝试在proot容器使用的话，可以挂载Termux的tmp路径到proot容器，并修改`sokect`路径，重新编译客户端。
 
 进入termux-glibc环境过后，设置`VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/vortek_icd.aarch64.json`
 
