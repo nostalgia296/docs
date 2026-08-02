@@ -173,3 +173,108 @@
 		}
 	}
 }
+
+/* Expressive Code — custom copy button (injected by src/lib/expressive-code/copy-button.ts)
+ * Kept OUTSIDE any @layer on purpose: expressive-code injects unlayered styles
+ * (e.g. `.expressive-code * { all: revert }`), and unlayered rules always beat
+ * layered ones in the cascade regardless of specificity. */
+.expressive-code pre {
+	position: relative;
+}
+
+.expressive-code .copy-btn {
+	position: absolute;
+	top: 0.625rem;
+	right: 0.75rem;
+	z-index: 5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.75rem;
+	height: 1.75rem;
+	margin: 0;
+	padding: 0;
+	border: none;
+	border-radius: 0.5rem;
+	color: var(--color-ios-gray);
+	background-color: color-mix(in srgb, var(--color-ios-fill2) 60%, transparent);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	appearance: none;
+	-webkit-appearance: none;
+	cursor: pointer;
+	transition:
+		opacity 0.2s ease,
+		color 0.2s ease,
+		background-color 0.2s ease,
+		transform 0.15s ease;
+}
+
+.expressive-code .copy-btn:hover {
+	color: var(--color-ios-label);
+	background-color: var(--color-ios-fill2);
+}
+
+.expressive-code .copy-btn:active {
+	transform: scale(0.85);
+}
+
+.expressive-code .copy-btn:focus-visible {
+	opacity: 1;
+	outline: 2px solid var(--color-ios-blue);
+	outline-offset: 2px;
+}
+
+/* Reveal the button on hover for pointer devices, keep it visible on touch devices */
+@media (hover: hover) {
+	.expressive-code .frame:hover .copy-btn {
+		opacity: 1;
+	}
+}
+
+@media (hover: none) {
+	.expressive-code .copy-btn {
+		opacity: 1;
+	}
+}
+
+/* Stacked icons — copy icon fades out, success check fades in */
+.expressive-code .copy-btn-icon {
+	position: relative;
+	width: 1rem;
+	height: 1rem;
+	pointer-events: none;
+}
+
+.expressive-code .copy-btn-svg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease;
+}
+
+.expressive-code .copy-btn .copy-icon {
+	opacity: 1;
+}
+
+.expressive-code .copy-btn .success-icon {
+	opacity: 0;
+	transform: scale(0.4);
+}
+
+.expressive-code .copy-btn.success {
+	color: var(--color-ios-green);
+}
+
+.expressive-code .copy-btn.success .copy-icon {
+	opacity: 0;
+	transform: scale(0.4);
+}
+
+.expressive-code .copy-btn.success .success-icon {
+	opacity: 1;
+	transform: scale(1);
+}

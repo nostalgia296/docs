@@ -4,6 +4,7 @@ import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import remarkExpressiveCode from 'remark-expressive-code';
+import { pluginCopyButton } from './src/lib/expressive-code/copy-button';
 
 function mdsvexExpressiveCodeHack() {
 	return (tree: any) => {
@@ -42,6 +43,8 @@ export default defineConfig({
 							remarkExpressiveCode,
 							{
 								themes: ['github-light', 'github-dark'],
+								plugins: [pluginCopyButton()],
+								frames: { showCopyToClipboardButton: false },
 								themeCssSelector: (theme: any) =>
 									theme.name === 'github-light' ? ':root' : '.dark',
 								useDarkModeMediaQuery: false,
