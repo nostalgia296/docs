@@ -198,8 +198,6 @@
 	border-radius: 0.5rem;
 	color: var(--color-ios-gray);
 	background-color: color-mix(in srgb, var(--color-ios-fill2) 60%, transparent);
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
 	appearance: none;
 	-webkit-appearance: none;
 	cursor: pointer;
@@ -266,7 +264,7 @@
 }
 
 .expressive-code .copy-btn.success {
-	color: var(--color-ios-green);
+	color: var(--color-ios-blue);
 }
 
 .expressive-code .copy-btn.success .copy-icon {
