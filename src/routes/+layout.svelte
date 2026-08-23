@@ -130,7 +130,12 @@
 		{@render children()}
 	</main>
 
-	<footer class="border-t border-ios-separator py-6 text-center text-sm text-ios-secondary">
-		copyright@ {new Date().getFullYear()} Lai. All rights reserved.
+	<footer class="border-t border-ios-separator">
+		<div
+			class="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 font-mono text-[11px] tracking-[0.18em] text-ios-secondary uppercase sm:flex-row sm:px-6 lg:px-8"
+		>
+			<span>© {new Date().getFullYear()} Lai</span>
+			<span class="text-ios-gray">All rights reserved</span>
+		</div>
 	</footer>
 </div>

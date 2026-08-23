@@ -73,7 +73,14 @@
 		{#if headings.length > 0}
 			<ul class="flex flex-col gap-2.5 border-l border-ios-separator pl-4">
 				{#each headings as heading (heading.id)}
-					<li>
+					<li class="relative">
+						<span
+							aria-hidden="true"
+							class="absolute top-1/2 -left-[17px] h-[calc(100%-10px)] w-[2px] -translate-y-1/2 rounded-full bg-ios-blue transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] {activeHeading ===
+							heading.id
+								? 'scale-y-100 opacity-100'
+								: 'scale-y-0 opacity-0'}"
+						></span>
 						<a
 							href="#{heading.id}"
 							class="block text-sm transition-colors hover:text-ios-label {activeHeading ===

@@ -75,7 +75,8 @@ function mdsvexGlobalComponents() {
 		if (scriptNode) {
 			scriptNode.value = existing.replace(
 				/<script([^>]*)>([\s\S]*?)<\/script>/,
-				(_m, attrs, inner) => `<script${attrs}>${imports}\n${inner}</script>`
+				(_m: string, attrs: string, inner: string) =>
+					`<script${attrs}>${imports}\n${inner}</script>`
 			);
 		} else {
 			tree.children.unshift({ type: 'html', value: `<script>${imports}</script>\n` });

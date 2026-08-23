@@ -428,7 +428,7 @@
 			aria-expanded={open && (results.length > 0 || loading)}
 			aria-controls="docs-search-results"
 			aria-autocomplete="list"
-			class="block w-64 rounded-xl border-0 bg-ios-fill py-1.5 pr-12 pl-9 text-ios-label transition-colors outline-none placeholder:text-ios-gray focus:bg-ios-fill2 sm:text-sm sm:leading-6"
+			class="block w-64 rounded-xl border border-transparent bg-ios-fill py-1.5 pr-12 pl-9 text-ios-label transition-all outline-none placeholder:text-ios-gray focus:border-ios-blue/30 focus:bg-ios-card focus:ring-4 focus:ring-ios-blue/10 sm:text-sm sm:leading-6"
 			placeholder={locale.ui.searchPlaceholder}
 			oninput={onInput}
 			onfocus={onInput}
@@ -443,7 +443,7 @@
 		{#if open && query.trim()}
 			<div
 				id="docs-search-results"
-				class="absolute top-full right-0 left-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl border border-ios-separator bg-ios-card py-2"
+				class="absolute top-full right-0 left-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl border border-ios-separator bg-ios-card py-2 shadow-[0_4px_12px_rgba(0,0,0,0.06),0_20px_48px_-16px_rgba(0,0,0,0.18)] dark:shadow-[0_20px_48px_-16px_rgba(0,0,0,0.6)]"
 				role="listbox"
 			>
 				{#if results.length > 0}
@@ -452,7 +452,7 @@
 							href={doc.href}
 							role="option"
 							aria-selected={i === activeIndex}
-							class="block px-3 py-2.5 transition-colors {i === activeIndex
+							class="block rounded-lg px-3 py-2.5 transition-colors {i === activeIndex
 								? 'bg-ios-blue/10 text-ios-blue'
 								: 'text-ios-label hover:bg-ios-fill'}"
 							onmouseenter={() => (activeIndex = i)}
@@ -508,7 +508,7 @@
 						autocomplete="off"
 						autocorrect="off"
 						spellcheck="false"
-						class="block w-full rounded-xl border-0 bg-ios-fill py-2.5 pr-3 pl-9 text-ios-label outline-none placeholder:text-ios-gray focus:bg-ios-fill2 sm:text-sm"
+						class="block w-full rounded-xl border border-transparent bg-ios-fill py-2.5 pr-3 pl-9 text-ios-label outline-none placeholder:text-ios-gray focus:border-ios-blue/30 focus:bg-ios-card sm:text-sm"
 						placeholder={locale.ui.searchPlaceholder}
 						onkeydown={(e) => onKeydown(e, results)}
 					/>
