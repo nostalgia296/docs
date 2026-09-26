@@ -102,7 +102,7 @@
 <!-- Mobile TOC Floating Button -->
 {#if headings.length > 0}
 	<button
-		class="fixed right-4 bottom-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-ios-blue text-white shadow-xl transition-transform hover:scale-105 active:scale-95 sm:right-6 sm:bottom-8 sm:h-14 sm:w-14 xl:hidden"
+		class="fixed right-4 bottom-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-ios-blue text-black shadow-xl transition-transform hover:scale-105 active:scale-95 sm:right-6 sm:bottom-8 sm:h-14 sm:w-14 xl:hidden"
 		onclick={() => (isMobileTocOpen = true)}
 		aria-label="Table of Contents"
 	>

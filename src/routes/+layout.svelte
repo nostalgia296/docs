@@ -4,8 +4,7 @@
 	import { config } from '$lib/docs.config';
 	import { page } from '$app/stores';
 	import { localizePath } from '$lib/i18n';
-	import { toggleTheme } from '$lib/theme';
-	import { Layers, Sun, Moon } from '@lucide/svelte';
+	import { Layers } from '@lucide/svelte';
 	import Search from '$lib/components/docs/Search.svelte';
 
 	let { children } = $props();
@@ -27,7 +26,12 @@
 	}
 </script>
 
-<div class="flex min-h-screen flex-col selection:bg-ios-blue selection:text-white">
+<div class="fixed inset-0 z-0" aria-hidden="true">
+	<img src="/8.webp" alt="" class="h-full w-full object-cover" />
+	<div class="absolute inset-0 bg-black/70"></div>
+</div>
+
+<div class="relative z-10 flex min-h-screen flex-col selection:bg-white selection:text-black">
 	<header class="ios-blur sticky top-0 z-50 w-full border-b border-ios-separator">
 		<div class="flex h-14 w-full items-center justify-between gap-2 px-3 sm:px-6 lg:px-8">
 			<div class="flex min-w-0 items-center gap-3 sm:gap-8">
@@ -88,21 +92,6 @@
 					{/each}
 				</div>
 
-				<button
-					onclick={toggleTheme}
-					class="relative flex h-8 w-8 items-center justify-center text-ios-secondary transition-all duration-300 hover:text-ios-blue active:scale-90"
-					aria-label="Toggle Dark Mode"
-				>
-					<Sun
-						class="absolute h-5 w-5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] scale-100 rotate-0 dark:-rotate-90 dark:scale-0"
-						strokeWidth={2}
-					/>
-					<Moon
-						class="absolute h-5 w-5 scale-0 rotate-90 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] dark:scale-100 dark:rotate-0"
-						strokeWidth={2}
-					/>
-				</button>
-
 				{#each config.socialLinks as link (link.link)}
 					{#if link.icon === 'github'}
 						<a
@@ -126,7 +115,7 @@
 		</div>
 	</header>
 
-	<main class="flex flex-grow flex-col bg-ios-bg">
+	<main class="flex flex-grow flex-col">
 		{@render children()}
 	</main>
 

@@ -98,7 +98,7 @@
 	{href}
 	target="_blank"
 	rel="noopener noreferrer"
-	class="group inline-flex max-w-full items-center gap-2.5 rounded-full border border-ios-separator bg-ios-card py-1.5 pr-3 pl-1.5 text-sm shadow-sm transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-px hover:border-ios-blue/40 hover:shadow-md sm:gap-3 sm:py-2 sm:pr-4 sm:pl-2"
+	class="group inline-flex max-w-full items-center gap-2.5 rounded-full border border-ios-separator bg-ios-card py-1.5 pr-3 pl-1.5 text-sm shadow-sm backdrop-blur-sm transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-px hover:border-ios-blue/40 hover:shadow-md sm:gap-3 sm:py-2 sm:pr-4 sm:pl-2"
 >
 	{#if loading}
 		<!-- Skeleton -->

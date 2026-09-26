@@ -11,13 +11,7 @@
 			rel="stylesheet"
 		/>
 		<script>
-			(function () {
-				var stored = localStorage.getItem('theme');
-				var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-				var dark = stored === 'dark' || (stored !== 'light' && prefersDark);
-				document.documentElement.classList.toggle('dark', dark);
-				document.documentElement.classList.toggle('light', !dark);
-			})();
+			document.documentElement.classList.add('dark');
 		</script>
 		%sveltekit.head%
 	</head>

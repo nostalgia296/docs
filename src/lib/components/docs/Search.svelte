@@ -443,7 +443,7 @@
 		{#if open && query.trim()}
 			<div
 				id="docs-search-results"
-				class="absolute top-full right-0 left-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl border border-ios-separator bg-ios-card py-2 shadow-[0_4px_12px_rgba(0,0,0,0.06),0_20px_48px_-16px_rgba(0,0,0,0.18)] dark:shadow-[0_20px_48px_-16px_rgba(0,0,0,0.6)]"
+				class="absolute top-full right-0 left-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl border border-ios-separator bg-ios-card py-2 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.06),0_20px_48px_-16px_rgba(0,0,0,0.18)] dark:shadow-[0_20px_48px_-16px_rgba(0,0,0,0.6)]"
 				role="listbox"
 			>
 				{#if results.length > 0}
@@ -563,8 +563,8 @@
 <style>
 	:global(.search-highlight) {
 		border-radius: 0.25rem;
-		background: rgba(0, 122, 255, 0.14);
-		color: rgb(0, 122, 255);
+		background: rgba(255, 255, 255, 0.18);
+		color: rgb(255, 255, 255);
 		padding: 0 0.125rem;
 	}
 </style>
