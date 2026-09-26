@@ -27,7 +27,10 @@
 </script>
 
 <div class="fixed inset-0 z-0" aria-hidden="true">
-	<img src="/8.webp" alt="" class="h-full w-full object-cover" />
+	<picture>
+		<source media="(max-width: 767px)" srcset="/m.jpg" />
+		<img src="/8.webp" alt="" class="h-full w-full object-cover" />
+	</picture>
 	<div class="absolute inset-0 bg-black/70"></div>
 </div>
 
