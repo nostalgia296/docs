@@ -131,7 +131,7 @@
 <div class="mb-4 lg:hidden">
 	<button
 		onclick={() => (isMobileOpen = true)}
-		class="group flex w-full items-center justify-between rounded-2xl border border-ios-separator bg-ios-card px-4 py-3 shadow-sm backdrop-blur-sm transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-ios-blue/30 hover:shadow-md active:scale-[0.985]"
+		class="group flex w-full items-center justify-between rounded-2xl border border-ios-separator bg-transparent px-4 py-3 backdrop-blur-xs transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-ios-blue/30 hover:shadow-md active:scale-[0.985]"
 		aria-label={locale.ui.menu || 'Menu'}
 	>
 		<span class="flex items-center gap-3">
