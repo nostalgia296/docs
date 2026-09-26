@@ -11,7 +11,7 @@
 	{#if prevLink}
 		<a
 			href={prevLink.link}
-			class="group relative flex min-w-0 items-center gap-4 overflow-hidden rounded-2xl border border-ios-separator bg-ios-card p-4 backdrop-blur-sm transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:border-ios-blue/40 sm:p-5 {nextLink
+			class="group relative flex min-w-0 items-center gap-4 overflow-hidden rounded-2xl border border-ios-separator bg-transparent p-4 backdrop-blur-xs transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:border-ios-blue/40 sm:p-5 {nextLink
 				? ''
 				: 'sm:col-span-2'}"
 		>
@@ -45,7 +45,7 @@
 	{#if nextLink}
 		<a
 			href={nextLink.link}
-			class="group relative flex min-w-0 items-center justify-end gap-4 overflow-hidden rounded-2xl border border-ios-separator bg-ios-card p-4 text-right backdrop-blur-sm transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:border-ios-blue/40 sm:p-5 {prevLink
+			class="group relative flex min-w-0 items-center justify-end gap-4 overflow-hidden rounded-2xl border border-ios-separator bg-transparent p-4 text-right backdrop-blur-xs transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:border-ios-blue/40 sm:p-5 {prevLink
 				? ''
 				: 'sm:col-span-2'}"
 		>

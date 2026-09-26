@@ -37,7 +37,7 @@
 		<article
 			data-pagefind-body
 			data-pagefind-filter="lang:{currentLang}"
-			class="prose-custom rounded-xl border border-ios-separator bg-ios-card px-4 py-6 backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-20px_rgba(0,0,0,0.14)] sm:rounded-2xl sm:p-10 dark:shadow-none"
+			class="prose-custom rounded-xl border border-ios-separator bg-transparent px-4 py-6 backdrop-blur-xs shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-20px_rgba(0,0,0,0.14)] sm:rounded-2xl sm:p-10 dark:shadow-none"
 		>
 			{@render children()}
 		</article>

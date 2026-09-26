@@ -13,11 +13,6 @@
 
 <div class="relative isolate overflow-hidden">
 	<div
-		aria-hidden="true"
-		class="pointer-events-none absolute top-[-14rem] left-1/2 -z-10 h-[28rem] w-[64rem] max-w-none -translate-x-1/2 rounded-full bg-ios-blue/10 blur-3xl dark:bg-ios-blue/[0.14]"
-	></div>
-
-	<div
 		class="mx-auto flex min-h-[calc(100svh-3.5rem)] max-w-7xl flex-col justify-center px-4 pt-6 pb-16 sm:px-6 sm:pb-32 lg:px-8 lg:py-32"
 	>
 		<div class="mx-auto max-w-2xl text-center">
