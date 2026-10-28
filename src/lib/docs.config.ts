@@ -78,10 +78,6 @@ export const config: DocsConfig = {
                         text: 'certbot',
                         link: '/docs/certbot'
                     },
-                    {
-                        text: 'vortek-termux documention',
-                        link: '/docs/vortek'
-                    },
                 ]
             }]
         },
@@ -114,10 +110,6 @@ export const config: DocsConfig = {
                     {
                         text: 'certbot的dns验证模式',
                         link: '/zh/docs/certbot'
-                    },
-                    {
-                        text: 'vortek-termux文档',
-                        link: '/zh/docs/vortek'
                     },
                 ]
             }]

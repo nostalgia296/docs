@@ -1,6 +1,0 @@
----
-title: vortek-termux documention
-description: 
----
-
-Later...
